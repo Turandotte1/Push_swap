@@ -22,7 +22,7 @@ CLEAN_COLOR = \033[1;36m
 NAME = push_swap
 # NAME2 = checker
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 
 # files
 

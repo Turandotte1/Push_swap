@@ -61,25 +61,26 @@ int				push_all_in_a(t_stack **a, t_stack **b, t_list **instruct)
 
 int				main(int ac, char **av)
 {
-	t_stack		*stack_a;
-	t_stack		*stack_b;
+	t_stack		*a;
+	t_stack		*b;
 	t_args		*info;
 	t_list		*instruct;
 
-	stack_a = NULL;
-	stack_b = NULL;
+	a = NULL;
+	b = NULL;
 	if (!(info = malloc(sizeof(t_args))))
 		ft_malloc_error(__LINE__, __FILE__);
 	instruct = NULL;
 	if (ac > 1)
 	{
-		get_user_data(ac, av, &stack_a, info);
-		info->size = stack_len(&stack_a);
-		sort_this_shit(&stack_a, &stack_b, info, &instruct);
-//		push_all_in_a(&stack_a, &stack_b, &instruct);
-//		print_final_stack(&stack_a);
-		print_final_stack(&stack_b);
-		free_everything(stack_a, stack_b, info, instruct);
+		get_user_data(ac, av, &a, info);
+		info->size = stack_len(a) + 1;
+		printf("SIZE = %d\n", info->size);	
+		if (!(is_sorted_up(&a)))
+			sort_this_shit(&a, &b, info, &instruct);
+		push_all_in_a(&a, &b, &instruct);
+		print_final_stack(&a);
+		free_everything(a, b, info, instruct);
 	}
 	else
 		error_managment(1, 0, NULL);

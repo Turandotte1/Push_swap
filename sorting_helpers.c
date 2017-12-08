@@ -17,54 +17,50 @@ void			stock_instruct(t_list **instruct, char *str)
 
 void			small_len(t_stack **a, t_stack **b, t_list **instruct)
 {
-	if (a && *a && (*a)->next)
+	if (a && (*a)->next)
 	{
 		if ((*a)->data > (*a)->next->data)
 		{
-			s_swap(*a);
+			s_swap(*a, NULL);
 			stock_instruct(instruct, "sa");
 		}
 	}
-	if (b && *b && (*b)->next)
+	if (b && (*b)->next)
 	{
 		if ((*b)->data < (*b)->next->data)
 		{
-			s_swap(*b);
+			s_swap(NULL, *b);
 			stock_instruct(instruct, "sb");
 		}
 	}
 	return ;
 }
 
-int				sorts_calc(t_stack **a, int pivot, int size)
+int				sorts_calc(t_stack *a, int pivot, int size)
 {	
 	int 		nb;
-	t_stack		*p;
 
 	nb = 0;
-	p = *a;
 	while (size)
 	{
-		if (p->data < pivot)
+		if (a->data < pivot)
 			nb++;
-		p = p->next;
+		a = a->next;
 		size--;
 	}
 	return (nb);
 }
 
-int 			backwards_sorts_calc(t_stack **a, int pivot, int size)
+int 			backwards_sorts_calc(t_stack *a, int pivot, int size)
 {
 	int 		nb;
-	t_stack 	*p;
 
 	nb = 0;
-	p = *a;
 	while (size)
 	{
-		if (p->data > pivot)
+		if (a->data > pivot)
 			nb++;
-		p = p->next;
+		a = a->next;
 		size--;
 	}
 	return (nb);

@@ -11,7 +11,7 @@ static int			check_length(intmax_t *tab, int nb)
 			error_managment(3, tab[i], NULL);
 		i++;
 	}
-	return (42);
+	return (1);
 }
 
 static int			check_duplicates(intmax_t *tab, int nb)
@@ -32,21 +32,21 @@ static int			check_duplicates(intmax_t *tab, int nb)
 		}
 		i++;
 	}
-	return (42);
+	return (1);
 }
 
 static int 			opt_browse(char *str, t_args *info)
 {
 	if ((ft_strcmp("-s", str)) || (ft_strcmp("--stat", str)))
 		info->stat = 1;
-	else if ((ft_strcmp("-v", str)) || (ft_strcmp("--debug", str)))
-		info->debug = 0;
+	else if ((ft_strcmp("-d", str)) || (ft_strcmp("--debug", str)))
+		info->debug = 1;
 	else
 	{
 		ft_printf("Unknown option: %s\n", str);
 		error_managment(1, 0, NULL);
 	}
-	return (42);
+	return (1);
 }
 
 static int 			validity_check(char *str)
@@ -60,7 +60,7 @@ static int 			validity_check(char *str)
 			error_managment(2, 0, str);
 		i++;
 	}
-	return (42);
+	return (1);
 } 
 
 int					get_user_data(int ac, char **av, t_stack **stack_a, t_args *info)
@@ -89,5 +89,5 @@ int					get_user_data(int ac, char **av, t_stack **stack_a, t_args *info)
 	check_duplicates(tab, j);
 	while (j)
 		ft_push(stack_a, tab[--j]);
-	return (42);
+	return (1);
 }

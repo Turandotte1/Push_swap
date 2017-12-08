@@ -4,7 +4,7 @@ void 			back_presort(t_stack **a, t_stack **b, t_args *info, t_list **instruct)
 {
 	int 		nb;
 
-	nb = backwards_sorts_calc(b, info->pivot, info->size);
+	nb = backwards_sorts_calc(*b, info->pivot, info->size);
 	while (nb)
 	{
 		if (info->pivot < (*b)->data)
@@ -16,7 +16,7 @@ void 			back_presort(t_stack **a, t_stack **b, t_args *info, t_list **instruct)
 		}
 		else
 		{
-			s_rotate(b);
+			s_rotate(NULL, b);
 			stock_instruct(instruct, "rb");
 			info->rot++;
 		}
@@ -25,39 +25,36 @@ void 			back_presort(t_stack **a, t_stack **b, t_args *info, t_list **instruct)
 
 void 			backwards_sort(t_stack **a, t_stack **b, t_args *info, t_list **instruct)
 {
-//	if (!(is_sorted_down(b)))	
-//	{
 		info->push = 0;
 		info->rot = 0;
 		info->temp = info->size;
-		printf("SIZE = %d\n", info->size);
-		if (info->size < 3)
+		if (info->size <= 2)
 			return (small_len(NULL, b, instruct));
 		info->pivot = pivot_found(*b, info->size);
 		back_presort(a, b, info, instruct);
 		info->size = info->push;
-//		sort_this_shit(a, b, info, instruct);
-		info->final_size = stack_len(b);
+		sort_this_shit(a, b, info, instruct);
+		info->final_size = stack_len(*b) + 1;
 		while (info->rot-- && info->final_size != info->size)
 		{
-			s_reverse_rotate(b);
+			s_reverse_rotate(NULL, b);
 			stock_instruct(instruct, "rrb");
 		}
 		info->size = info->temp - info->push;
 		backwards_sort(a, b, info, instruct);
-		while (info->push--)
+		while (info->push)
 		{
 			s_push(b, a);
 			stock_instruct(instruct, "pb");
+			info->push--;
 		}
-//	}
 }
 
 void 			presort(t_stack **a, t_stack **b, t_args *info, t_list **instruct)
 {
 	int 		nb;
 
-	nb = sorts_calc(a, info->pivot, info->size);
+	nb = sorts_calc(*a, info->pivot, info->size);
 	while (nb)
 	{
 		if ((*a)->data < info->pivot)
@@ -70,7 +67,7 @@ void 			presort(t_stack **a, t_stack **b, t_args *info, t_list **instruct)
 		}
 		else
 		{
-			s_rotate(a);
+			s_rotate(a, NULL);
 			stock_instruct(instruct, "ra");
 			info->rot++;
 		}
@@ -79,29 +76,25 @@ void 			presort(t_stack **a, t_stack **b, t_args *info, t_list **instruct)
 
 void			sort_this_shit(t_stack **a, t_stack **b, t_args *info, t_list **instruct)
 {
-//	if (!(is_sorted_up(a)))
-//	{
 		info->push = 0;
 		info->rot = 0;
-		if (info->size < 3)
+		if (info->size <= 2)
 			return (small_len(a, NULL, instruct));
 		info->pivot = pivot_found(*a, info->size);
 		presort(a, b, info, instruct);
-		info->final_size = stack_len(a);
-		while (info->rot-- && info->final_size != info->size)
+		info->final_size = stack_len(*a) + 1;
+		while (info->rot-- >= 0 && info->final_size != info->size)
 		{
-			s_reverse_rotate(a);
+			s_reverse_rotate(a, NULL);
 			stock_instruct(instruct, "rra");
 		}
 		sort_this_shit(a, b, info, instruct);
-		printf("PUSH1 = %d\n", info->push);
 		info->size = info->push;
 		backwards_sort(a, b, info, instruct);
-		printf("PUSH = %d\n", info->push);
-		while (info->push--)
+		while (info->push)
 		{
 			s_push(a, b); 
 			stock_instruct(instruct, "pa");
+			info->push--;
 		}
-//	}
 }
