@@ -1,19 +1,6 @@
 #include "push_swap.h"
 
-void			stock_instruct(t_list **instruct, char *str)
-{
-	t_list		*temp;
 
-	temp = *instruct;
-	if (*instruct == NULL)
-		*instruct = ft_lstnew(str, ft_strlen(str) + 1);
-	else
-	{
-		while (temp->next)
-			temp = temp->next;
-		temp->next = ft_lstnew(str, ft_strlen(str) + 1);
-	}
-}
 
 void			small_len(t_stack **a, t_stack **b, t_list **instruct)
 {
@@ -41,12 +28,12 @@ int				sorts_calc(t_stack *a, int pivot, int size)
 	int 		nb;
 
 	nb = 0;
-	while (size)
+	while (a)
 	{
 		if (a->data < pivot)
 			nb++;
 		a = a->next;
-		size--;
+		size = 0;
 	}
 	return (nb);
 }
@@ -56,12 +43,12 @@ int 			backwards_sorts_calc(t_stack *a, int pivot, int size)
 	int 		nb;
 
 	nb = 0;
-	while (size)
+	while (a)
 	{
 		if (a->data > pivot)
 			nb++;
 		a = a->next;
-		size--;
+		size = 0;
 	}
 	return (nb);
 }

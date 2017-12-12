@@ -8,7 +8,7 @@ static int			check_length(intmax_t *tab, int nb)
 	while (i < nb)
 	{
 		if (tab[i] > INT_MAX || tab[i] < INT_MIN)
-			error_managment(3, tab[i], NULL);
+			error_managment(2, tab[i], NULL);
 		i++;
 	}
 	return (1);
@@ -27,7 +27,7 @@ static int			check_duplicates(intmax_t *tab, int nb)
 		while (j < nb)
 		{
 			if (tab[i] == tab[j])
-				error_managment(4, tab[i], NULL);
+				error_managment(3, tab[i], NULL);
 			j++;
 		}
 		i++;
@@ -44,7 +44,7 @@ static int 			opt_browse(char *str, t_args *info)
 	else
 	{
 		ft_printf("Unknown option: %s\n", str);
-		error_managment(1, 0, NULL);
+		error_managment(0, 0, NULL);
 	}
 	return (1);
 }

@@ -32,25 +32,13 @@ int 			stack_len(t_stack *stack)
 {
 	int			len;
 
-	len = -1;
+	len = 0;
 	while (stack)
 	{
 		stack = stack->next;
 		len++;
 	}
 	return (len);
-}
-
-void 			free_stack(t_stack *s)
-{
-	t_stack  	*temp;
-
-	while (s)
-	{
-		temp = s->next;
-		free(s);
-		s = temp;
-	}
 }
 
 int				ft_push(t_stack **top, int data)
@@ -63,4 +51,19 @@ int				ft_push(t_stack **top, int data)
 	new->next = (*top == NULL ? NULL : *top);
 	*top = new;
 	return (1);
+}
+
+void			stock_instruct(t_list **instruct, char *str)
+{
+	t_list		*temp;
+
+	temp = *instruct;
+	if (*instruct == NULL)
+		*instruct = ft_lstnew(str, ft_strlen(str) + 1);
+	else
+	{
+		while (temp->next)
+			temp = temp->next;
+		temp->next = ft_lstnew(str, ft_strlen(str) + 1);
+	}
 }

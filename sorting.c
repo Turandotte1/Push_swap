@@ -1,100 +1,125 @@
 #include "push_swap.h"
 
-void 			back_presort(t_stack **a, t_stack **b, t_args *info, t_list **instruct)
+int			last_pointer_data(t_stack *stack)
 {
-	int 		nb;
+	int 	last;
 
-	nb = backwards_sorts_calc(*b, info->pivot, info->size);
-	while (nb)
+	last = 0;
+	while (stack->next)
+		stack = stack->next;
+	last = stack->data;
+	return (last);
+}
+
+int				push_all_in_a(t_stack **a, t_stack **b, t_list **instruct)
+{
+	t_stack 	*pp;
+
+	pp = *b;
+	while (pp)
 	{
-		if (info->pivot < (*b)->data)
-		{
-			s_push(a, b);
-			stock_instruct(instruct, "pa");
-			info->push++;
-			nb--;
-		}
-		else
-		{
-			s_rotate(NULL, b);
-			stock_instruct(instruct, "rb");
-			info->rot++;
-		}
+		s_push(a, b);
+		stock_instruct(instruct, "pa");
+		pp = pp->next;
 	}
+	return (42);
 }
 
-void 			backwards_sort(t_stack **a, t_stack **b, t_args *info, t_list **instruct)
+void 			ascending_check(t_stack **a, t_stack **b)
 {
-		info->push = 0;
-		info->rot = 0;
-		info->temp = info->size;
-		if (info->size <= 2)
-			return (small_len(NULL, b, instruct));
-		info->pivot = pivot_found(*b, info->size);
-		back_presort(a, b, info, instruct);
-		info->size = info->push;
-		sort_this_shit(a, b, info, instruct);
-		info->final_size = stack_len(*b) + 1;
-		while (info->rot-- && info->final_size != info->size)
-		{
-			s_reverse_rotate(NULL, b);
-			stock_instruct(instruct, "rrb");
-		}
-		info->size = info->temp - info->push;
-		backwards_sort(a, b, info, instruct);
-		while (info->push)
-		{
-			s_push(b, a);
-			stock_instruct(instruct, "pb");
-			info->push--;
-		}
+ 	if ((*a)->first > (*a)->second)
+ 	{
+ 		s_swap(*a, NULL);
+ 		s_rotate(a, NULL);
+ 	//	print_final_stack(a);
+ 	//	printf("\n");
+ 		//stock_instruct("sa");
+ 	}
+ 	else if ((*a)->first < (*a)->second && (*a)->first > (*a)->last)
+ 	{
+ 		s_reverse_rotate(a, NULL);
+ 		a = &(*a)->next;
+ 	//	print_final_stack(a);
+ 	//	printf("\n");
+ 		//stock_instruct("rra");
+ 	}
+ 	else if ((*a)->first < (*a)->second && (*a)->first < (*a)->last)
+ 	{
+ 		if ((*a)->first >= (*a)->pivot)
+ 		{
+ 			s_rotate(a, NULL);
+ 			a = &(*a)->next;
+ 	//		print_final_stack(a);
+ 	//		printf("\n");
+ 			//stock_instruct("ra");
+ 		}
+ 		else
+ 		{
+ 			s_push(b, a);
+ 			a = &(*a)->next;
+ 			print_final_stack(b);
+ 	//		printf("\n");
+ 			//stock_instruct("pb");
+ 		}
+ 	}
 }
 
-void 			presort(t_stack **a, t_stack **b, t_args *info, t_list **instruct)
-{
-	int 		nb;
+void			descending_check(t_stack **stack)
+{	
+ 	if ((*stack)->first < (*stack)->second)
+ 	{
+ 		s_swap(*stack, NULL);
+ 		//stock;
+ 	}
+ 	else if ((*stack)->first > (*stack)->second && (*stack)->first < (*stack)->last)
+ 	{
+ 		s_reverse_rotate(stack, NULL);
+ 		//stock_instruct("rrb");
+ 	}
+ 	else
+ 	{
+ 		s_rotate(stack, NULL);
+ 		//stock_instruct("rb");
+ 	}
+}
 
-	nb = sorts_calc(*a, info->pivot, info->size);
-	while (nb)
+void			print_final_stack(t_stack **a)
+{
+	t_stack 		*p;
+
+	p = *a;
+	while (p)
 	{
-		if ((*a)->data < info->pivot)
-		{
-			s_push(b, a);
-			stock_instruct(instruct, "pb");
-			info->size--;
-			info->push++;
-			nb--;
-		}
-		else
-		{
-			s_rotate(a, NULL);
-			stock_instruct(instruct, "ra");
-			info->rot++;
-		}
+		ft_printf("%d\n", p->data);
+		p = p->next;
 	}
 }
 
 void			sort_this_shit(t_stack **a, t_stack **b, t_args *info, t_list **instruct)
 {
-		info->push = 0;
-		info->rot = 0;
-		if (info->size <= 2)
-			return (small_len(a, NULL, instruct));
-		info->pivot = pivot_found(*a, info->size);
-		presort(a, b, info, instruct);
-		info->final_size = stack_len(*a) + 1;
-		while (info->rot-- >= 0 && info->final_size != info->size)
-		{
-			s_reverse_rotate(a, NULL);
-			stock_instruct(instruct, "rra");
-		}
-		sort_this_shit(a, b, info, instruct);
-		info->size = info->push;
-		backwards_sort(a, b, info, instruct);
-		while (info->push)
-		{
-			s_push(a, b); 
-			stock_instruct(instruct, "pa");
-			info->push--;
-		}
+	int 			len;
+
+	len = stack_len(*a);
+	(*a)->pivot = pivot_found(*a, len);
+	while (len-- > 2)
+	{
+		(*a)->first = (*a)->data;
+		printf("at rot #%d first is %d\n", len, (*a)->first);
+		(*a)->second = (*a)->next->data;
+		(*a)->last = last_pointer_data(*a);
+		ascending_check(a, b);
+//		if (b)
+//		{
+//			(*b)->first = (*b)->data;
+//			(*b)->second = (*b)->next->data;
+//			(*b)->last = last_pointer_data(*b);
+//			descending_check(b);
+//			b = &(*b)->next;
+//		}
+	}
+//	push_all_in_a(a, b, instruct);
+	print_final_stack(a);
+	print_final_stack(b);
+	info = NULL;
+	instruct = NULL;
 }

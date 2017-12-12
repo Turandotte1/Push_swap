@@ -32,7 +32,7 @@ void			s_swap(t_stack *a, t_stack *b)
 
 int				s_push(t_stack **dest, t_stack **src)
 {
-	if (src)
+	if (*src)
 	{
 		ft_push(dest, (*src)->data);
 		s_pop(src);

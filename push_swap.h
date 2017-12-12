@@ -6,6 +6,10 @@
 typedef struct 			s_stack
 {
     int					data;
+    int 				first;
+    int 				second;
+    int 				last;
+    int 				pivot;
     struct s_stack 		*next;
 }						t_stack;
 
@@ -14,12 +18,6 @@ typedef struct 			s_args
 	int 				options:1;
 	int 				stat:1;
 	int 				debug:1;
-	int 				size;
-	int 				final_size;
-	int 				push;
-	int 				rot;
-	int 				pivot;
-	int 				temp;
 }						t_args;
 
 void					error_managment(int key, intmax_t i, char *str);
