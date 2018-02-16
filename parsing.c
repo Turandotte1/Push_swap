@@ -1,93 +1,65 @@
 #include "push_swap.h"
 
-static int			check_length(intmax_t *tab, int nb)
+int				find_n(int nb, t_double *stack_a)
 {
-	int 		i;
+	t_node		*temp;
 
-	i = 0;
-	while (i < nb)
+	temp = stack_a->head;
+	while (temp)
 	{
-		if (tab[i] > INT_MAX || tab[i] < INT_MIN)
-			error_managment(2, tab[i], NULL);
-		i++;
-	}
-	return (1);
-}
-
-static int			check_duplicates(intmax_t *tab, int nb)
-{
-	int			i;
-	int 		j;
-
-	i = 0;
-	check_length(tab, nb);
-	while (i < nb)
-	{
-		j = i + 1;
-		while (j < nb)
-		{
-			if (tab[i] == tab[j])
-				error_managment(3, tab[i], NULL);
-			j++;
-		}
-		i++;
-	}
-	return (1);
-}
-
-static int 			opt_browse(char *str, t_args *info)
-{
-	if ((ft_strcmp("-s", str)) || (ft_strcmp("--stat", str)))
-		info->stat = 1;
-	else if ((ft_strcmp("-d", str)) || (ft_strcmp("--debug", str)))
-		info->debug = 1;
-	else
-	{
-		ft_printf("Unknown option: %s\n", str);
-		error_managment(0, 0, NULL);
-	}
-	return (1);
-}
-
-static int 			validity_check(char *str)
-{
-	int 			i;
-
-	i = 0;
-	while (*(str + i))
-	{
-		if ((*(str + i)) < '0' && (*(str + i)) > '9' && (!ft_isspace(*(str + i))))
-			error_managment(2, 0, str);
-		i++;
-	}
-	return (1);
-} 
-
-int					get_user_data(int ac, char **av, t_stack **stack_a, t_args *info)
-{
-	int 			i;
-	int 			j;
-	intmax_t 		*tab;
-
-	i = 0;
-	j = 0;
-	if (!(tab = malloc(sizeof(long long) * ac - 1)))
-		ft_malloc_error(__LINE__, __FILE__);
-	while (++i < ac)
-	{
-		if (av[i][0] == '-')
-		{
-			opt_browse(av[i], info);
-			info->options++;
-		}
+		if (NB(temp)->flag == 0 && nb == NB(temp)->nb)
+			return (1);
 		else
-		{
-			validity_check(av[i]);
-			tab[j++] = ft_atoi(av[i]);
-		}
+			temp = temp->next;
 	}
-	check_duplicates(tab, j);
-	while (j)
-		ft_push(stack_a, tab[--j]);
+	return (0);
+}
+
+void				save_num(char **av, t_double **a, t_n *n, int i)
+{
+	n->nb = ft_atoi(av[i]);
+	ft_doublelink_add_head(*a, n, sizeof(t_n));
+}
+
+int 				input_check(char **av, t_double **a, t_args *args)
+{
+	int				i;
+	int				no;
+	t_n				n;
+
+	i = 1;
+	no = 0;
+	init_n(&n);
+	while (av[i])
+	{
+		if (!(check_digit(av[i])))
+		{
+			if (i == 1 && opt_browse(av[1], args))
+				no++;
+			else
+				return (0);
+		}
+		if (!(check_length(av[i])))
+			return (0);
+		if (no == 0)
+			save_num(av, a, &n, i);
+		i++;
+		no = 0;
+	}
+	return ((!(check_duplicates(a))) ? 0 : 1);
+}
+
+int					get_user_data(char **av, t_pushswap *push_swap, t_args *args)
+{
+	if (!(input_check(av, &push_swap->stack_a, args)))
+	{
+		ft_doublelink_del(&push_swap->stack_a);
+		free(push_swap->stack_a);
+		ft_doublelink_del(&push_swap->stack_b);
+		free(push_swap->stack_b);
+		delete_ops(&push_swap->stack_op);
+		free(push_swap->op);
+		return (-1);
+	}
 	return (1);
 }

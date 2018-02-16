@@ -1,66 +1,46 @@
 # include "push_swap.h"
 
-void 			free_stack(t_stack *s)
+void			sort_this_shit(t_pushswap *push_swap, t_args *args)
 {
-	t_stack  	*temp;
+	int			sort;
 
-	while (s)
+	sort = 0;
+	if (push_swap->stack_a->length > 1)
 	{
-		temp = s->next;
-		free(s);
-		s = temp;
+		while (!(is_sorted(push_swap->stack_a)))
+		{
+			if ((push_swap->stack_a)->length <= 19)
+			{
+				if ((push_swap->stack_a)->length == 3 
+						&& is_reversed(push_swap->stack_a) == 1)
+				{
+					presort(push_swap, args, &sort);
+				}
+				else if (!(notMuchMoves_left_in_a(push_swap, args, &sort)))
+					simple_sort(push_swap, args, &sort);
+			}
+			else if (!(notMuchMoves_left_in_a(push_swap, args, &sort)))
+				quicksort_in_your_face(push_swap, args, &sort);
+		}
 	}
-}
-
-void			free_it(t_stack *a, t_stack *b, t_args *info, t_list *instruct)
-{
-	t_list		*temp;
-
-	temp = NULL; 
-	free_stack(a);
-	free_stack(b);
-	free(info);
-	while (instruct)
-	{
-		temp = instruct->next;
-		free(instruct);
-		instruct = temp;
-	}
-}
-
-void			error_managment(int key, intmax_t i, char *str)
-{
-	if (key == 1)
-		ft_printf("Error: invalid argument -%s-\nI don't know how to deal with it:(\n", str);
-	else if (key == 2)
-		ft_printf("Error: argument -%jd- is too big for an int\nI don't know how to deal with it:(\n", i);
-	else if (key == 3)
-		ft_printf("Error: there are duplicates of -%jd- in the input\nI don't know how to deal with it:(\n", i);
-	ft_printf("Usage: ./push_swap 2 4 9 42...\nPlease enter at least one integer or verify the input\n");
-	exit(EXIT_FAILURE);
+	if (push_swap->stack_a->length != 0)
+		print_it_out(push_swap, args, sort);
 }
 
 int				main(int ac, char **av)
 {
-	t_stack		*a;
-	t_stack		*b;
-	t_args		*info;
-	t_list		*instruct;
+	t_pushswap	push_swap;
+	t_args		args;
 
-	a = NULL;
-	b = NULL;
-	if (!(info = malloc(sizeof(t_args))))
-		ft_malloc_error(__LINE__, __FILE__);
-	instruct = NULL;
+	init_push_swap(&push_swap);
+	init_args(&args);
 	if (ac > 1)
 	{
-		get_user_data(ac, av, &a, info);
-		if (!(is_sorted_up(&a)))
-			sort_this_shit(&a, &b, info, &instruct);
-//		print_it_out(instruct, info, &a, &b);
-		free_it(a, b, info, instruct);
+		double_link_init(*push_swap);
+		get_user_data(av, push_swap, args);
+		sort_this_shit(&push_swap, &args);
 	}
 	else
-		error_managment(0, 0, NULL);
+		return (-1);
 	return (0);
 }

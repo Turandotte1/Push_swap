@@ -37,6 +37,25 @@
 *************  Structures  ***************
 */
 
+//typedef struct				s_lst
+//{
+//	t_dbllist				*a;
+//	t_dbllist				*b;
+//	t_dbllist				*actions;
+//	t_dbllist				*piv;
+//}							t_lst;
+
+//typedef struct				s_nb
+//{
+//	int						n;
+//	int						check;
+//}							t_nb;
+
+typedef struct				s_act
+{
+	char					*name;
+}							t_act;
+
 typedef struct				s_pivot
 {
 	t_elem					*pos;
@@ -45,34 +64,14 @@ typedef struct				s_pivot
 	int						gap;
 }							t_pivot;
 
-typedef struct				s_lst
-{
-	t_dbllist				*a;
-	t_dbllist				*b;
-	t_dbllist				*actions;
-	t_dbllist				*piv;
-
-}							t_lst;
-
-typedef struct				s_nb
-{
-	int						n;
-	int						check;
-}							t_nb;
-
-typedef struct				s_act
-{
-	char					*name;
-}							t_act;
-
-typedef struct				s_options
-{
-	int						n;
-	int						v;
-	int						c;
-	int						l;
-	int						i;
-}							t_options;
+//typedef struct				s_options
+//{
+//	int						n;
+//	int						v;
+//	int						c;
+//	int						l;
+//	int						i;
+//}							t_options;
 
 /*
 ************* Descriptions of options **************

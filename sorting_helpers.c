@@ -1,65 +1,54 @@
 #include "push_swap.h"
 
-
-
-void			small_len(t_stack **a, t_stack **b, t_list **instruct)
+int				is_sorted(t_double *stack_a)
 {
-	if (a && (*a)->next)
+	t_node		*temp;
+
+	temp = stack_a->head;
+	while (temp)
 	{
-		if ((*a)->data > (*a)->next->data)
-		{
-			s_swap(*a, NULL);
-			stock_instruct(instruct, "sa");
-		}
+		if (temp->next != NULL && NB(temp)->nb < NB(temp->next)->nb)
+			return (0);
+		temp = temp->next;
 	}
-	if (b && (*b)->next)
-	{
-		if ((*b)->data < (*b)->next->data)
-		{
-			s_swap(NULL, *b);
-			stock_instruct(instruct, "sb");
-		}
-	}
-	return ;
+	return (1);
 }
 
-int				sorts_calc(t_stack *a, int pivot, int size)
-{	
-	int 		nb;
+int				is_reversed(t_double *stack_a)
+{
+	t_node		*temp;
 
-	nb = 0;
-	while (a)
+	temp = stack_a->head;
+	while (temp)
 	{
-		if (a->data < pivot)
-			nb++;
-		a = a->next;
-		size = 0;
+		if (temp->next != NULL && NB(temp)->nb > NB(temp->next)->nb)
+			return (0);
+		temp = temp->next;
 	}
-	return (nb);
+	return (1);
 }
 
-int 			backwards_sorts_calc(t_stack *a, int pivot, int size)
+int				presort(t_pushswap *push_swap, t_args *args, int *sort)
 {
-	int 		nb;
+	int			count;
+	t_node		*temp;
 
-	nb = 0;
-	while (a)
+	count = 0;
+	temp = (push_swap->stack_a)->head;
+	while (temp)
 	{
-		if (a->data > pivot)
-			nb++;
-		a = a->next;
-		size = 0;
+		if (temp->next != NULL && NB(temp)->nb > NB(temp->next)->nb)
+			count++;
+		if (count > 0)
+			return (0);
+		temp = tmp->next;
 	}
-	return (nb);
-}
-
-t_stack			*create_link(int data)
-{
-	t_stack		*new_link;
-
-	if (!(new_link = (t_stack *)malloc(sizeof(new_link))))
-		ft_malloc_error(__LINE__, __FILE__);
-	new_link->data = data;
-//	new_link->next = NULL;
-	return (new_link);
+	sa(push_swap);
+	if (args->v == 1)
+		debug_opt(push_swap, "sa");
+	rra(push_swap);
+	if (options->v == 1)
+		debug_opt(push_swap, "rra");
+	*sort = 1;
+	return (1);
 }

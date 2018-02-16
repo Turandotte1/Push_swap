@@ -1,5 +1,4 @@
-
-
+#include "push_swap.h"
 
 /*void			print_it_out(t_list *instruct, t_args *info, t_stack *a, t_stack *b)
 {
