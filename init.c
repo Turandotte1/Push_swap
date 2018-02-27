@@ -1,3 +1,5 @@
+#include "push_swap.h"
+
 void	init_push_swap(t_pushswap *push_swap)
 {
 	push_swap->stack_a = NULL;
@@ -27,3 +29,10 @@ void	init_n(t_n *n)
 	n->flag = 0;
 }
 
+void	init_pivot(t_piv *pivot)
+{
+	pivot->position = NULL;
+	pivot->low = 0;
+	pivot->up = 0;
+	pivot->distance = 0;
+}

@@ -56,13 +56,13 @@ typedef struct				s_act
 	char					*name;
 }							t_act;
 
-typedef struct				s_pivot
-{
-	t_elem					*pos;
-	int						lower;
-	int						upper;
-	int						gap;
-}							t_pivot;
+//typedef struct				s_pivot
+//{
+//	t_elem					*pos;
+//	int						lower;
+//	int						upper;
+//	int						gap;
+//}							t_pivot;
 
 //typedef struct				s_options
 //{

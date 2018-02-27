@@ -1,4 +1,6 @@
-void			push_swap_error(int key, intmax_t i, char *str)
+#include "push_swap.h"
+
+void				push_swap_error(int key, intmax_t i, char *str)
 {
 	if (key == 1)
 		ft_printf("Error: invalid argument -%s-\nI don't know how to deal with it:(\n", str);

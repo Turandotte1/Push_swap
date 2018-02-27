@@ -1,4 +1,4 @@
-# include "push_swap.h"
+#include "push_swap.h"
 
 void			sort_this_shit(t_pushswap *push_swap, t_args *args)
 {
@@ -14,12 +14,12 @@ void			sort_this_shit(t_pushswap *push_swap, t_args *args)
 				if ((push_swap->stack_a)->length == 3 
 						&& is_reversed(push_swap->stack_a) == 1)
 				{
-					presort(push_swap, args, &sort);
+					sort_small_stack(push_swap, args, &sort);
 				}
-				else if (!(notMuchMoves_left_in_a(push_swap, args, &sort)))
-					simple_sort(push_swap, args, &sort);
+				else if (!(notmuchmoves_left_in_a(push_swap, args, &sort)))
+					selection_sort(push_swap, args, &sort);
 			}
-			else if (!(notMuchMoves_left_in_a(push_swap, args, &sort)))
+			else if (!(notmuchmoves_left_in_a(push_swap, args, &sort)))
 				quicksort_in_your_face(push_swap, args, &sort);
 		}
 	}
@@ -36,8 +36,8 @@ int				main(int ac, char **av)
 	init_args(&args);
 	if (ac > 1)
 	{
-		double_link_init(*push_swap);
-		get_user_data(av, push_swap, args);
+		double_link_init(&push_swap);
+		get_user_data(av, &push_swap, &args);
 		sort_this_shit(&push_swap, &args);
 	}
 	else

@@ -1,6 +1,7 @@
 #include "push_swap.h"
 
-int				notmuchmoves_left_in_a(t_pushswap *push_swap, t_args *args, int *sort)
+int				notmuchmoves_left_in_a(t_pushswap *push_swap, 
+									t_args *args, int *sort)
 {
 	int			count;
 	t_node		*temp;
@@ -40,7 +41,7 @@ int			check_second(t_node *first, t_node *second)
 		return (1);
 	while (temp)
 	{
-		if (temp != second && NB(first)->nb < NB(tmp)->nb)
+		if (temp != second && NB(first)->nb < NB(temp)->nb)
 			return (0);
 		temp = temp->next;
 	}
@@ -65,38 +66,29 @@ int			check_first(t_node *first, t_node *second)
 	return (1);
 }
 
-void		swap_and_sort(t_pushswap *push_swap, t_node *second, t_args *args)
+void			swap_and_sort(t_pushswap *push_swap, t_node *second, t_args *args)
 {
-	more_effective_moving(push_swap, second, args);
-	sa(push_swap);
+	less_costly(push_swap, second, args);
+	sa_op(push_swap);
 	if (args->debug == 1)
 		debug_opt(push_swap, "sa");
-	more_effective_moving(push_swap, find_min(&push_swap->stack_a), args);
+	less_costly(push_swap, find_min(&push_swap->stack_a), args);
 }
 
-/*void		more_effective_moving(t_pushswap *push_swap, t_node *node, t_args *args)
+void			selection_sort(t_pushswap *push_swap, t_args *args, int *sort)
 {
-	int		count;
-
-	count = 0;
-	if (reverse_or_notReverse(&l->a, elem, &count) == 0)
+	while ((push_swap->stack_a)->length > 0)
 	{
-		while (count > 0)
-		{
-			ra(l);
-			if (options->v == 1)
-				show_piles(l, "ra");
-			count--;
-		}
+		less_costly(push_swap, find_min(&push_swap->stack_a), args);
+		pb_op(push_swap);
+		if (args->debug == 1)
+			debug_opt(push_swap, "pb");
 	}
-	else
+	while ((push_swap->stack_b)->length > 0)
 	{
-		while (1 + count > 0)
-		{
-			rra(l);
-			if (options->v == 1)
-				show_piles(l, "rra");
-			count--;
-		}
+		pa_op(push_swap);
+		if (args->debug == 1)
+			debug_opt(push_swap, "pa");
 	}
-}*/
+	*sort = 2;
+}

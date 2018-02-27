@@ -58,7 +58,7 @@ int					get_user_data(char **av, t_pushswap *push_swap, t_args *args)
 		ft_doublelink_del(&push_swap->stack_b);
 		free(push_swap->stack_b);
 		delete_ops(&push_swap->stack_op);
-		free(push_swap->op);
+		free(push_swap->stack_op);
 		return (-1);
 	}
 	return (1);
