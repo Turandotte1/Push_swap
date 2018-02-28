@@ -21,15 +21,18 @@ CLEAN_COLOR = \033[1;36m
 
 NAME = push_swap
 # NAME2 = checker
-CC = cc
+CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 
 # files
 
 LIBFT = Libft/
 
-SRC = check.c display.c error.c	init.c list_oper.c 	min_max.c operations1.c	operations2.c operations3.c \
-		parsing.c pivot.c precheck_and_selectionsort.c 	push_swap.c quicksort.c sorting_helpers.c 
+SRC = check.c display.c error.c	init.c \
+	list_oper.c min_max.c operations1.c	\
+	operations2.c operations3.c \
+	parsing.c pivot.c precheck_and_selectionsort.c \
+	push_swap.c quicksort.c sorting_helpers.c 
 
 OBJ = $(SRC:.c=.o)
 
@@ -41,13 +44,13 @@ INC = -I ./Libft/ -L ./Libft -lft
 
 all: $(NAME)
 
-NAME :
-	make all -C $(LIBFT)
-	$(CC) $(CFLAGS) $(INC)  $(OBJ) -o $@  
-	echo "$(OK_COLOR)	--- $(NAME) created! ---	$(NO_COLOR)"
+$(NAME): $(OBJ)
+	@make all -C $(LIBFT)
+	@$(CC) $(CFLAGS) $(INC) $(OBJ) -o $@  
+	@echo "$(OK_COLOR)	--- $(NAME) created! ---	$(NO_COLOR)"
 
 $(OBJ): $(SRC)
-	$(CC) $(CFLAGS) -c $(SRC)
+	@$(CC) $(CFLAGS) -c $(SRC)
 
 norme:
 	@norminette $(SRC) $(INC)
