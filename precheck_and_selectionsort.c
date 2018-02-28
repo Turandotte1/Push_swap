@@ -77,9 +77,11 @@ void			swap_and_sort(t_pushswap *push_swap, t_node *second, t_args *args)
 
 void			selection_sort(t_pushswap *push_swap, t_args *args, int *sort)
 {
-	while ((push_swap->stack_a)->length > 0)
+	while ((push_swap->stack_a)->length > 1)
 	{
 		less_costly(push_swap, find_min(&push_swap->stack_a), args);
+		if (is_sorted(push_swap->stack_a))
+			break ;
 		pb_op(push_swap);
 		if (args->debug == 1)
 			debug_opt(push_swap, "pb");

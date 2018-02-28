@@ -22,9 +22,9 @@ typedef struct 			s_pushswap
 
 typedef struct 			s_args
 {
-	int					info:1;
-	int 				num:1;
-	int 				debug:1;
+	int					info;
+	int 				num;
+	int 				debug;
 }						t_args;
 
 typedef struct 			s_n

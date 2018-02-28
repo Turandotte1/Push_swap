@@ -37,7 +37,11 @@ int				main(int ac, char **av)
 	if (ac > 1)
 	{
 		double_link_init(&push_swap);
-		get_user_data(av, &push_swap, &args);
+		if (!(get_user_data(av, &push_swap, &args)))
+		{
+			printf("Error\n");
+			return (-1);
+		}
 		sort_this_shit(&push_swap, &args);
 	}
 	else

@@ -59,7 +59,7 @@ int					get_user_data(char **av, t_pushswap *push_swap, t_args *args)
 		free(push_swap->stack_b);
 		delete_ops(&push_swap->stack_op);
 		free(push_swap->stack_op);
-		return (-1);
+		return (0);
 	}
 	return (1);
 }
