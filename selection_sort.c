@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   selection_sort.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrychkov <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/05 02:13:19 by mrychkov          #+#    #+#             */
+/*   Updated: 2018/03/05 02:16:35 by mrychkov         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 int					compare_data(int current, t_stack **a)
@@ -52,16 +64,13 @@ void				selection_sort(t_stack **a, t_stack **b, t_args *args)
 			sa(a, b, args);
 		else
 		{
-			if (min > stack_len_calc(a) - min && (min = stack_len_calc(a) - min))
-			{
+			if (min > stack_len_calc(a) - min
+					&& (min = stack_len_calc(a) - min))
 				while (!check_piles(a, b) && min--)
 					rra(a, b, args);
-			}
 			else
-			{
 				while (!check_piles(a, b) && min--)
 					ra(a, b, args);
-			}
 		}
 		if (!check_piles(a, b))
 			pb(a, b, args);

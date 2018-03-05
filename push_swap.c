@@ -1,50 +1,89 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   push_swap.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrychkov <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/05 02:12:09 by mrychkov          #+#    #+#             */
+/*   Updated: 2018/03/05 02:13:11 by mrychkov         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-void			sort_this_shit(t_pushswap *push_swap, t_args *args)
+static void			choose_sort(t_stack **a, t_stack **b, t_args *args)
 {
-	int			sort;
+	int				stack_len;
 
-	sort = 0;
-	if (push_swap->stack_a->length > 1)
+	stack_len = stack_len_calc(a);
+	if (check_if_sorted(a, b))
+		return ;
+	if (stack_len > 10)
+		sort_big_stack(a, b, args);
+	else
 	{
-		while (!(is_sorted(push_swap->stack_a)))
-		{
-			if ((push_swap->stack_a)->length <= 19)
-			{
-				if ((push_swap->stack_a)->length == 3 
-						&& is_reversed(push_swap->stack_a) == 1)
-				{
-					sort_small_stack(push_swap, args, &sort);
-				}
-				else if (!(notmuchmoves_left_in_a(push_swap, args, &sort)))
-					selection_sort(push_swap, args, &sort);
-			}
-			else if (!(notmuchmoves_left_in_a(push_swap, args, &sort)))
-				quicksort_in_your_face(push_swap, args, &sort);
-		}
+		if (stack_len == 3 && (*a)->next->next->data < (*a)->data &&
+				(*a)->next->next->data < (*a)->next->data &&
+				(*a)->data > (*a)->next->data)
+			sa(a, b, args);
+		selection_sort(a, b, args);
 	}
-	if (push_swap->stack_a->length != 0)
-		print_it_out(push_swap, args, sort);
 }
 
-int				main(int ac, char **av)
+static int			init_stack_a(t_stack **a, char *av)
 {
-	t_pushswap	push_swap;
-	t_args		args;
+	int		i;
 
-	init_push_swap(&push_swap);
-	init_args(&args);
-	if (ac > 1)
+	i = 0;
+	while (av[i])
 	{
-		double_link_init(&push_swap);
-		if (!(get_user_data(av, &push_swap, &args)))
-		{
-			printf("Error\n");
-			return (-1);
-		}
-		sort_this_shit(&push_swap, &args);
+		while (av[i] == ' ')
+			i++;
+		if (ft_atoi_max(&av[i]) > INT_MAX || ft_atoi_max(&av[i]) < INT_MIN)
+			return (0);
+		stack_fill(a, ft_atoi(&av[i]));
+		while (av[i] && av[i] != ' ')
+			i++;
+		while (av[i] && av[i] == ' ')
+			i++;
 	}
-	else
-		return (-1);
+	return ((!check_duplicates(a)) ? 0 : 1);
+}
+
+static int			receive_args(t_stack **a, int ac, char **av)
+{
+	int				i;
+
+	i = 1;
+	while (i < ac)
+	{
+		if (!init_stack_a(a, av[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int					main(int ac, char **av)
+{
+	t_stack			*a;
+	t_stack			*b;
+	t_args			args;
+
+	a = NULL;
+	b = NULL;
+	init_args(&args);
+	if (ac < 2)
+		return (0);
+	if (!receive_args(&a, ac, av))
+	{
+		free_this_shit(&a);
+		return (0);
+	}
+	choose_sort(&a, &b, &args);
+	free_this_shit(&a);
+	free_this_shit(&b);
+	args.end = clock();
 	return (0);
 }

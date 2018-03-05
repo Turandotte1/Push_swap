@@ -5,68 +5,61 @@
 #                                                     +:+ +:+         +:+      #
 #    By: mrychkov <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2017/11/16 14:30:06 by mrychkov          #+#    #+#              #
-#    Updated: 2018/02/27 12:26:43 by mrychkov         ###   ########.fr        #
+#    Created: 2018/03/05 01:21:50 by mrychkov          #+#    #+#              #
+#    Updated: 2018/03/05 01:59:41 by mrychkov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
-# colours
 
 NO_COLOR = \033[0m
 WAIT_COLOR = \033[1;33m
 OK_COLOR = \033[1;32m
 CLEAN_COLOR = \033[1;36m
 
-# compiliation
+NAME1 = checker
+NAME2 = push_swap
 
-NAME = push_swap
-# NAME2 = checker
+SRC1 = checker.c verify.c verify_checker.c sorting_helpers.c \
+operations1.c operations2.c operations3.c options.c \
+selection_sort.c sort_big_stack.c start_rotation.c \
+less_costly.c 
+
+SRC2 = push_swap.c verify.c verify_checker.c sorting_helpers.c \
+operations1.c operations2.c operations3.c options.c \
+selection_sort.c sort_big_stack.c start_rotation.c \
+less_costly.c 
+
+OBJ1 = $(SRC1:.c=.o)
+OBJ2 = $(SRC2:.c=.o)
+
 CC = gcc
+
 CFLAGS = -Wall -Wextra -Werror
 
-# files
-
-LIBFT = Libft/
-
-SRC = check.c display.c error.c	init.c \
-	list_oper.c min_max.c operations1.c	\
-	operations2.c operations3.c \
-	parsing.c pivot.c precheck_and_selectionsort.c \
-	push_swap.c quicksort.c sorting_helpers.c 
-
-OBJ = $(SRC:.c=.o)
-
-INC = -I ./Libft/ -L ./Libft -lft
-
-# rules
-
 .PHONY: all clean fclean re
+	
+all: makelibs $(NAME1) $(NAME2)
 
-all: $(NAME)
+makelibs:
+	@make -C Libft
 
-$(NAME): $(OBJ)
-	@make all -C $(LIBFT)
-	@$(CC) $(CFLAGS) $(INC) $(OBJ) -o $@  
-	@echo "$(OK_COLOR)	--- $(NAME) created! ---	$(NO_COLOR)"
+$(NAME1): $(OBJ1)
+	@$(CC) $(CFLAGS) $(OBJ1) Libft/libft.a -o $(NAME1)
+	@echo "$(CLEAN_COLOR)Compilation $(NAME1): $(OK_COLOR)OK $(NO_COLOR)"
 
-$(OBJ): $(SRC)
-	@$(CC) $(CFLAGS) -c $(SRC)
+$(NAME2): $(OBJ2)
+	@$(CC) $(CFLAGS) $(OBJ2) Libft/libft.a -o $(NAME2)
+	@echo "$(CLEAN_COLOR)Compilation $(NAME2): $(OK_COLOR)OK $(NO_COLOR)"
 
-norme:
-	@norminette $(SRC) $(INC)
-
-test:
-	@make all -C $(LIBFT)
-	@gcc $(CFLAGS) $(INC) $(SRC)
-	./a.out 7 4 2 6 3 1 15 
+%.o: %.c
+	@$(CC) -c $(CFLAGS) -o $@ $<
 
 clean:
-	@make clean -C $(LIBFT)
-	@rm -rf $(OBJ) 2> /dev/null || echo ":(" > /dev/null
-	
-fclean: clean
-	@make fclean -C $(LIBFT)
-	@rm -rf $(NAME) 2> /dev/null || echo ":(" > /dev/null
-	@echo "$(CLEAN_COLOR)	--- $(NAME)  deleted ---		$(NO_COLOR)"
+	@make -C Libft clean
+	@rm -rf $(OBJ1) $(OBJ2)
 
-re: fclean all
+fclean: clean
+	@make -C Libft fclean
+	@rm -rf $(NAME1) $(NAME2)
+	@echo "$(CLEAN_COLOR)Cleaning $(NAME1) and $(NAME2): $(OK_COLOR)OK $(NO_COLOR)"
+
+re : fclean all

@@ -1,114 +1,137 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   push_swap.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrychkov <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/05 02:51:27 by mrychkov          #+#    #+#             */
+/*   Updated: 2018/03/05 07:19:51 by mrychkov         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
 # include "Libft/libft.h"
+# include "time.h"
 
-# define NB(X)				((t_n *)((X)->content))
-# define ACTIONS(X)			((t_act *)((X)->content))
-# define PIVOT(X)			((t_piv *)((X)->content))
-# define OPTIONS			"nvi"
+# define OPTIONS "nvc"
 
-/* 
-**------------ Les structures se cachent ici ------------
-*/
-
-typedef struct 			s_pushswap
-{
-  t_double				*stack_a;
-  t_double 				*stack_b;
-  t_double				*stack_op;
-  t_double				*stack_pivot;  
-}						t_pushswap;
-
-typedef struct 			s_args
-{
-	int					info;
-	int 				num;
-	int 				debug;
-}						t_args;
-
-typedef struct 			s_n
-{
-	int					nb;
-	int					flag;	
-}						t_n;
-
-typedef struct			s_piv
-{
-	t_node				*position;
-	int					low;
-	int					up;
-	int					distance;
-}						t_piv;
-
-typedef struct			s_act
-{
-	char				*name;
-}						t_act;
+# define RED				"\e[31m"
+# define BLUE				"\e[34m"
+# define CYAN				"\e[36m"
+# define BLACK				"\e[30m"
+# define GREEN				"\e[32m"
+# define BROWN				"\e[0;33m"
+# define DEFAULT			"\e[39m"
+# define MAGENTA			"\e[35m"
+# define BOLD_RED			"\e[1;31m"
+# define BOLD_BLUE			"\e[1;34m"
+# define BOLD_CYAN			"\e[1;36m"
+# define LIGHT_GREY			"\e[37m"
+# define BOLD_BLACK			"\e[1;30m"
+# define BOLD_GREEN			"\e[1;32m"
+# define BOLD_BROWN			"\e[0;1;33m"
+# define BOLD_DEFAULT		"\e[1;39m"
+# define BOLD_MAGENTA		"\e[1;35m"
+# define BOLD_LIGHT_GREY	"\e[1;37m"
+# define END				"\033[0m"
 
 /*
-**-----------Les prototypes se cachent ici --------
+**------------Les structures se cachent ici---------------*
 */
 
-int 					check_digit(char *str);
-int						opt_browse(char *str, t_args *args);
-int						check_length(char *str);
-int						check_duplicates(t_double **stack_a);
-int						find_n(int nb, t_double *stack_a);
-int 					input_check(char **av, t_double **a, t_args *args);
-int						get_user_data(char **av, t_pushswap *push_swap, t_args *args);
-int						define_pivot(t_pushswap *push_swap);
-int						which_pivot(t_pushswap *push_swap, int value);
-int						notmuchmoves_left_in_a(t_pushswap *push_swap, t_args *args, int *sort);
-int						check_second(t_node *first, t_node *second);
-int						check_first(t_node *first, t_node *second);
-int						is_sorted(t_double *stack_a);
-int						is_reversed(t_double *stack_a);
-int						sort_small_stack(t_pushswap *push_swap, t_args *args, int *sort);
-int						reverse_or_rotate(t_double **stack, t_node *node, int *count);
+typedef struct			s_stack
+{
+	intmax_t			data;
+	struct s_stack		*next;
+}						t_stack;
 
-void					save_args(char args, t_args *as);
-void					print_it_out(t_pushswap *push_swap, t_args *args, int sort);
-void					print_operations(t_double *op);
-void					which_sort(int sort);
-void					debug_opt(t_pushswap *push_swap, char *op);
-void					stack_print(t_double *stack);
-void					push_swap_error(int key, intmax_t i, char *str);
-void					init_push_swap(t_pushswap *push_swap);
+typedef struct			s_args
+{
+	int					debug;
+	int					colors;
+	int					num;
+	int					total;
+	int					print;
+	int					checker;
+	int					ops;
+	double				execution_time;
+	clock_t				start;
+	clock_t				end;
+}						t_args;
+
+typedef struct			s_checker
+{
+	char				*op;
+	void				(*ft)(t_stack **a, t_stack **b, t_args *args);
+}						t_checker;
+
+typedef struct			s_weight
+{
+	int					ra;
+	int					rb;
+	int					rra;
+	int					rrb;
+	int					total;
+}						t_weight;
+
+/*
+**----------------Les fonctions de l'algo se cachent ici---------------*
+*/
+
+void					less_costly_b(t_weight *price_b, int data, t_stack **b);
+void					less_costly_a(t_weight *price_a, int position,
+																t_stack **a);
+void					selection_sort(t_stack **a, t_stack **b, t_args *args);
+void					sort_big_stack(t_stack **a, t_stack **b,
+																t_args *args);
+void					start_rotation(t_weight *price, t_stack **a,
+													t_stack **b, t_args *args);
+
+int						compare_data(int current, t_stack **a);
+
+/*
+**----------------Les fonctions des operations se cachent ici----------*
+*/
+
+void					pa(t_stack **a, t_stack **b, t_args *args);
+void					pb(t_stack **a, t_stack **b, t_args *args);
+void					ra(t_stack **a, t_stack **b, t_args *args);
+void					rb(t_stack **a, t_stack **b, t_args *args);
+void					rr(t_stack **a, t_stack **b, t_args *args);
+void					rra(t_stack **a, t_stack **b, t_args *args);
+void					rrb(t_stack **a, t_stack **b, t_args *args);
+void					rrr(t_stack **a, t_stack **b, t_args *args);
+void					sa(t_stack **a, t_stack **b, t_args *args);
+void					sb(t_stack **a, t_stack **b, t_args *args);
+void					ss(t_stack **a, t_stack **b, t_args *args);
+
+/*
+**-------------------Les fonctions d'affichage se cachent ici----------*
+*/
+
+void					debug_opt(t_stack **a, t_stack **b, t_args *args);
+void					print_info(t_args *args);
+/*
+**-------------------Les fonctions helpers se cachent ici--------------*
+*/
+
+void					free_this_shit(t_stack **head);
 void					init_args(t_args *args);
-void 					double_link_init(t_pushswap *push_swap);
-void					init_n(t_n *n);
-void					init_pivot(t_piv *pivot);
-void					delete_ops(t_double **stack);
-void					free_ops(t_double **stack, t_node *to_remove);
-void					sa_op(t_pushswap *push_swap);
-void					sb_op(t_pushswap *push_swap);
-void					ss_op(t_pushswap *push_swap);
-void					pa_src(t_double *stack);
-void					pa_dst(t_double *stack, t_node *push);
-void					pa_op(t_pushswap *push_swap);
-void					pb_op(t_pushswap *push_swap);
-void					ra_op(t_pushswap *push_swap);
-void					rb_op(t_pushswap *push_swap);
-void					rr_op(t_pushswap *push_swap);
-void					rra_op(t_pushswap *push_swap);
-void					rrb_op(t_pushswap *push_swap);
-void					rrr_op(t_pushswap *push_swap);
-void					save_num(char **av, t_double **a, t_n *n, int i);
-void					define_pivot_fuck_the_norm(t_pushswap *push_swap);
-void					pivot_up(t_pushswap *push_swap, t_piv *pivot);
-void					pivot_distance(t_piv *pivot);
-void					swap_and_sort(t_pushswap *push_swap, t_node *second, t_args *args);
-void					selection_sort(t_pushswap *push_swap, t_args *args, int *sort);
-void					sort_this_shit(t_pushswap *push_swap, t_args *args);
-void					quicksort_in_your_face(t_pushswap *push_swap, t_args *args, int *sort);
-void					stack_divide(t_pushswap *push_swap, int piv, t_args *args);
-void					sort_a(t_pushswap *push_swap, t_args *args);
-void					sort_b(t_pushswap *push_swap, t_args *args);
-void					less_costly_b(t_pushswap *push_swap, t_node *node, t_args *args);
-void					less_costly(t_pushswap *push_swap, t_node *node, t_args *args);
+void					init_checker_tab(t_checker *tab);
+void					check_if_worked(t_stack **a, t_stack **b, t_args *args);
+void					stack_fill(t_stack **head, int data);
 
-t_node					*find_min(t_double **stack);
-t_node					*find_max(t_double **stack);
+int						find_min(t_stack **a);
+int						check_if_sorted(t_stack **a, t_stack **b);
+int						check_a(t_stack **a);
+int						check_b(t_stack **b);
+int						check_duplicates(t_stack **a);
+int						check_args(int ac, char **av, int index);
+int						stack_len_calc(t_stack **a);
+
+t_stack					*ft_create_elem(int data);
 
 #endif

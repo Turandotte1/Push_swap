@@ -1,105 +1,94 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sorting_helpers.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrychkov <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/05 02:10:07 by mrychkov          #+#    #+#             */
+/*   Updated: 2018/03/05 02:10:55 by mrychkov         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-int				is_sorted(t_double *stack_a)
+void				free_this_shit(t_stack **head)
 {
-	t_node		*temp;
+	t_stack			*current;
+	t_stack			*remove;
 
-	temp = stack_a->head;
+	if (head == NULL)
+		return ;
+	if (*head == NULL)
+		return ;
+	current = *head;
+	while (current->next)
+	{
+		remove = current;
+		current = current->next;
+		free(remove);
+	}
+	free(current);
+	*head = NULL;
+}
+
+static int			compare(int data, t_stack **a)
+{
+	t_stack *temp;
+
+	temp = *a;
 	while (temp)
 	{
-		if (temp->next != NULL && NB(temp)->nb < NB(temp->next)->nb)
+		if (data > temp->data)
 			return (0);
 		temp = temp->next;
 	}
 	return (1);
 }
 
-int				is_reversed(t_double *stack_a)
+int					find_min(t_stack **a)
 {
-	t_node		*temp;
+	int				min;
+	t_stack			*temp;
 
-	temp = stack_a->head;
+	temp = *a;
+	min = 0;
 	while (temp)
 	{
-		if (temp->next != NULL && NB(temp)->nb > NB(temp->next)->nb)
-			return (0);
+		if (compare(temp->data, a))
+			break ;
+		min++;
 		temp = temp->next;
+	}
+	return (min);
+}
+
+int					check_if_sorted(t_stack **a, t_stack **b)
+{
+	t_stack			*first;
+	t_stack			*second;
+
+	if (*b)
+		return (0);
+	first = *a;
+	second = (*a)->next;
+	while (second)
+	{
+		if (first->data > second->data)
+			return (0);
+		first = first->next;
+		second = second->next;
 	}
 	return (1);
 }
 
-int				sort_small_stack(t_pushswap *push_swap, t_args *args, int *sort)
+t_stack				*ft_create_elem(int data)
 {
-	int			count;
-	t_node		*temp;
+	t_stack			*new;
 
-	count = 0;
-	temp = (push_swap->stack_a)->head;
-	while (temp)
-	{
-		if (temp->next != NULL && NB(temp)->nb > NB(temp->next)->nb)
-			count++;
-		if (count > 0)
-			return (0);
-		temp = temp->next;
-	}
-	sa_op(push_swap);
-	if (args->debug == 1)
-		debug_opt(push_swap, "sa");
-	rra_op(push_swap);
-	if (args->debug == 1)
-		debug_opt(push_swap, "rra");
-	*sort = 1;
-	return (1);
-}
-
-void			less_costly(t_pushswap *push_swap, t_node *node, t_args *args)
-{
-	int		count;
-
-	count = 0;
-	if (reverse_or_rotate(&push_swap->stack_a, node, &count) == 0)
-	{
-		while (count > 0)
-		{
-			ra_op(push_swap);
-			if (args->debug == 1)
-				debug_opt(push_swap, "ra");
-			count--;
-		}
-	}
-	else
-	{
-		while (1 + count > 0)
-		{
-			rra_op(push_swap);
-			if (args->debug == 1)
-				debug_opt(push_swap, "rra");
-			count--;
-		}
-	}
-}
-
-int				reverse_or_rotate(t_double **stack, t_node *node, int *count)
-{
-	int			count_head;
-	int			count_tail;
-	t_node		*temp_b;
-	t_node		*temp_e;
-
-	temp_b = (*stack)->head;
-	temp_e = (*stack)->tail;
-	count_head = 0;
-	count_tail = 0;
-	while (temp_b && temp_b != node)
-	{
-		count_head++;
-		temp_b = temp_b->next;
-	}
-	count_tail = (*stack)->length - 1 - count_head;
-	if (count_head >= count_tail)
-		*count = count_tail;
-	else
-		*count = count_head;
-	return ((count_head >= count_tail) ? 0 : 1);
+	if (!(new = malloc(sizeof(t_stack))))
+		return (new);
+	new->data = data;
+	new->next = NULL;
+	return (new);
 }

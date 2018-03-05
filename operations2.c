@@ -1,95 +1,75 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   operations2.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrychkov <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/05 02:34:18 by mrychkov          #+#    #+#             */
+/*   Updated: 2018/03/05 02:36:44 by mrychkov         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-void			pa_op(t_pushswap *push_swap)
+void			rra(t_stack **a, t_stack **b, t_args *args)
 {
-	t_node		*push;
-	t_act		op;
+	t_stack		*head;
+	t_stack		*tail;
 
-	push = (push_swap->stack_b)->tail;
-	op.name = ft_strdup("pa");
-	pa_src(push_swap->stack_b);
-	pa_dst(push_swap->stack_a, push);
-	ft_doublelink_add_head(push_swap->stack_op, &op, sizeof(t_act));
-}
-
-void			pb_op(t_pushswap *push_swap)
-{
-	t_node		*push;
-	t_act		op;
-
-	push = (push_swap->stack_a)->tail;
-	op.name = ft_strdup("pb");
-	pa_src(push_swap->stack_a);
-	pa_dst(push_swap->stack_b, push);
-	ft_doublelink_add_head(push_swap->stack_op, &op, sizeof(t_act));
-}
-
-void			ra_op(t_pushswap *push_swap)
-{
-	t_node		*push;
-	t_act		op;
-
-	push = NULL;
-	op.name = NULL;
-	if ((push_swap->stack_a)->length == 0)
+	(void)*b;
+	if (!*a || !(*a)->next)
 		return ;
-	op.name = ft_strdup("ra");
-	push = (push_swap->stack_a)->tail;
-	if ((push_swap->stack_a)->length > 1)
+	head = (*a)->next;
+	tail = *a;
+	while (head->next)
 	{
-		(push_swap->stack_a)->tail = (push_swap->stack_a)->tail->prev;
-		(push_swap->stack_a)->tail->next = NULL;
-		(push_swap->stack_a)->head->prev = push;
-		push->next = (push_swap->stack_a)->head;
-		(push_swap->stack_a)->head = push;
-		push->prev = NULL;
+		head = head->next;
+		tail = tail->next;
 	}
-	ft_doublelink_add_head(push_swap->stack_op, &op, sizeof(t_act));
+	head->next = *a;
+	tail->next = NULL;
+	*a = head;
+	args->ops++;
+	if (args->print)
+		write(1, "rra\n", 4);
+	if (args->debug)
+		debug_opt(a, b, args);
 }
 
-void			rb_op(t_pushswap *push_swap)
+void			rrb(t_stack **a, t_stack **b, t_args *args)
 {
-	t_node		*push;
-	t_act		op;
+	t_stack		*head;
+	t_stack		*tail;
 
-	push = NULL;
-	op.name = NULL;
-	if ((push_swap->stack_b)->length == 0)
+	(void)*a;
+	if (!*b || !(*b)->next)
 		return ;
-	op.name = ft_strdup("rb");
-	push = (push_swap->stack_b)->tail;
-	if ((push_swap->stack_b)->length > 1)
+	head = (*b)->next;
+	tail = *b;
+	while (head->next)
 	{
-		(push_swap->stack_b)->tail = (push_swap->stack_b)->tail->prev;
-		(push_swap->stack_b)->tail->next = NULL;
-		(push_swap->stack_b)->head->prev = push;
-		push->next = (push_swap->stack_b)->head;
-		(push_swap->stack_b)->head = push;
-		push->prev = NULL;
+		head = head->next;
+		tail = tail->next;
 	}
-	ft_doublelink_add_head(push_swap->stack_op, &op, sizeof(t_act));
+	head->next = *b;
+	tail->next = NULL;
+	*b = head;
+	args->ops++;
+	if (args->print)
+		write(1, "rrb\n", 4);
+	if (args->debug)
+		debug_opt(a, b, args);
 }
 
-void			rr_op(t_pushswap *push_swap)
+void			rrr(t_stack **a, t_stack **b, t_args *args)
 {
-	t_act		op;
-	int			op_ra;
-	int			op_rb;
-
-	op.name = NULL;
-	op_ra = 0;
-	op_rb = 0;
-	if ((push_swap->stack_a)->length >= 1)
-		op_ra = 1;
-	if ((push_swap->stack_b)->length >= 1)
-		op_rb = 1;
-	if (op_ra != 0 || op_rb != 0)
-		op.name = ft_strdup("rr");
-	ra_op(push_swap);
-	rb_op(push_swap);
-	if (op_ra == 1)
-		free_ops(&push_swap->stack_op, (push_swap->stack_op)->tail);
-	if (op_rb == 1)
-		free_ops(&push_swap->stack_op, (push_swap->stack_op)->tail);
-	ft_doublelink_add_head(push_swap->stack_op, &op, sizeof(t_act));
+	rra(a, b, args);
+	rrb(a, b, args);
+	args->print = 1;
+	args->ops -= 1;
+	if (!args->checker)
+		write(1, "rrr\n", 4);
+	if (args->debug)
+		debug_opt(a, b, args);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   verify.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrychkov <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/05 02:05:10 by mrychkov          #+#    #+#             */
+/*   Updated: 2018/03/05 02:07:23 by mrychkov         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 int				check_a(t_stack **a)
@@ -42,7 +54,7 @@ int				check_duplicates(t_stack **a)
 {
 	int			temp_index;
 	int			current_index;
-	t_stack 	*temp;
+	t_stack		*temp;
 	t_stack		*current;
 
 	current_index = 1;
@@ -83,7 +95,7 @@ int				stack_len_calc(t_stack **a)
 
 void			stack_fill(t_stack **head, int data)
 {
-	t_stack			*new;
+	t_stack		*new;
 
 	if (head == NULL)
 		return ;

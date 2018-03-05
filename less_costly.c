@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   less_costly.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrychkov <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/05 02:38:15 by mrychkov          #+#    #+#             */
+/*   Updated: 2018/03/05 02:41:00 by mrychkov         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 void				less_costly_a(t_weight *price_a, int position, t_stack **a)
@@ -17,7 +29,8 @@ void				less_costly_a(t_weight *price_a, int position, t_stack **a)
 	}
 }
 
-static void			calculate_b_price(t_weight **price_b, int position, t_stack **b)
+static void			calculate_b_price(t_weight **price_b, int position,
+															t_stack **b)
 {
 	int				stack_len;
 
@@ -34,7 +47,8 @@ static void			calculate_b_price(t_weight **price_b, int position, t_stack **b)
 	}
 }
 
-static void			calculate_b_price_inv(t_weight **price_b, int position, t_stack **b)
+static void			calculate_b_price_inv(t_weight **price_b, int position,
+																t_stack **b)
 {
 	int				stack_len;
 
@@ -51,7 +65,8 @@ static void			calculate_b_price_inv(t_weight **price_b, int position, t_stack **
 	}
 }
 
-static void			closest_superior_pos(t_weight **price_b, int data, t_stack **b)
+static void			closest_superior_pos(t_weight **price_b, int data,
+															t_stack **b)
 {
 	t_stack			*temp;
 	int				current_pos;

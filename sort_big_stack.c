@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sort_big_stack.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrychkov <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/05 02:07:44 by mrychkov          #+#    #+#             */
+/*   Updated: 2018/03/05 02:09:54 by mrychkov         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 static void				renew_struct(t_weight *price, t_weight *temp_price)
@@ -18,7 +30,8 @@ static void				init_struct_price(t_weight *price)
 	price->total = 0;
 }
 
-static void				re_push_a(int b_len, t_stack **a, t_stack **b, t_args *args)
+static void				re_push_a(int b_len, t_stack **a, t_stack **b,
+												t_args *args)
 {
 	int					min;
 
