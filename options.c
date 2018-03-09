@@ -6,7 +6,7 @@
 /*   By: mrychkov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 02:31:20 by mrychkov          #+#    #+#             */
-/*   Updated: 2018/03/05 07:23:04 by mrychkov         ###   ########.fr       */
+/*   Updated: 2018/03/09 05:34:54 by mrychkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,21 @@ static void			print_a_b(t_stack **temp_a, t_stack **temp_b,
 {
 	if (args->colors)
 		write(1, BROWN, ft_strlen(BROWN));
-	ft_printf("|           |             |\n");
-	ft_printf("|%5d      |    %4d     |\n", (*temp_a)->data,
-		(*temp_b)->data);
-	ft_printf("|");
+	ft_printf("|                 |                 |\n");
+	ft_printf("    ");
+	ft_printf("%5d", (*temp_a)->data);
+	ft_printf("             ");
+	ft_printf("%-5d", (*temp_b)->data);
+	ft_printf("\n|");
 	if (args->colors)
 		write(1, GREEN, ft_strlen(GREEN));
-	ft_printf(" _________ ");
+	ft_printf(" _______________ ");
 	if (args->colors)
 		write(1, BROWN, ft_strlen(BROWN));
 	ft_printf("|");
 	if (args->colors)
 		write(1, GREEN, ft_strlen(GREEN));
-	ft_printf(" ___________ ");
+	ft_printf(" _______________ ");
 	if (args->colors)
 		write(1, BROWN, ft_strlen(BROWN));
 	ft_printf("|\n");
@@ -43,18 +45,20 @@ static void			print_a(t_stack **temp_a, t_args *args)
 {
 	if (args->colors)
 		write(1, BROWN, ft_strlen(BROWN));
-	ft_printf("|           |             |\n");
-	ft_printf("|%5d      |             |\n", (*temp_a)->data);
+	ft_printf("|                 |                 |\n");
+	ft_printf("    ");
+	ft_printf("%5d", (*temp_a)->data);
+	ft_printf("           \n");
 	ft_printf("|");
 	if (args->colors)
 		write(1, GREEN, ft_strlen(GREEN));
-	ft_printf(" _________ ");
+	ft_printf(" _______________ ");
 	if (args->colors)
 		write(1, BROWN, ft_strlen(BROWN));
 	ft_printf("|");
 	if (args->colors)
 		write(1, GREEN, ft_strlen(GREEN));
-	ft_printf(" ___________ ");
+	ft_printf(" _______________ ");
 	if (args->colors)
 		write(1, BROWN, ft_strlen(BROWN));
 	ft_printf("|\n");
@@ -67,18 +71,19 @@ static void			print_b(t_stack **temp_b, t_args *args)
 {
 	if (args->colors)
 		write(1, BROWN, ft_strlen(BROWN));
-	ft_printf("|           |             |\n");
-	ft_printf("|           |    %4d     |\n", (*temp_b)->data);
-	ft_printf("|");
+	ft_printf("|                 |                 |\n");
+	ft_printf("                  ");
+	ft_printf("    %7d", (*temp_b)->data);
+	ft_printf("\n|");
 	if (args->colors)
 		write(1, GREEN, ft_strlen(GREEN));
-	ft_printf(" _________ ");
+	ft_printf(" _______________ ");
 	if (args->colors)
 		write(1, BROWN, ft_strlen(BROWN));
 	ft_printf("|");
 	if (args->colors)
 		write(1, GREEN, ft_strlen(GREEN));
-	ft_printf(" ___________ ");
+	ft_printf(" _______________ ");
 	if (args->colors)
 		write(1, BROWN, ft_strlen(BROWN));
 	ft_printf("|\n");
@@ -96,13 +101,13 @@ void				debug_opt(t_stack **a, t_stack **b, t_args *args)
 	temp_b = *b;
 	if (args->colors)
 		write(1, GREEN, ft_strlen(GREEN));
-	ft_printf("\n===========================\n");
+	ft_printf("\n=====================================\n");
 	if (args->colors)
 		write(1, BROWN, ft_strlen(BROWN));
-	ft_printf("|    A    STACK     B     |\n");
+	ft_printf("|       A       STACK       B       |\n");
 	if (args->colors)
 		write(1, GREEN, ft_strlen(GREEN));
-	ft_printf("===========================\n");
+	ft_printf("=====================================\n");
 	while (temp_a || temp_b)
 	{
 		if (temp_a && temp_b)
@@ -117,11 +122,11 @@ void				debug_opt(t_stack **a, t_stack **b, t_args *args)
 
 void				print_info(t_args *args)
 {
-	args->execution_time = ((double)(args->end - args->start)) / CLOCKS_PER_SEC;
 	if (args->colors)
 		write(1, CYAN, ft_strlen(CYAN));
-	printf("\nI've executed this sort in %.2f sec\n", args->execution_time);
-	ft_printf("I've managed doing it in %d operations\n", args->ops);
+	ft_printf("\n=======================================\n");
+	ft_printf(" I've managed doing it in %d operations\n", args->ops);
+	ft_printf("=======================================\n");
 	if (args->colors)
 		write(1, END, ft_strlen(END));
 }

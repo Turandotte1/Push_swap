@@ -6,35 +6,15 @@
 /*   By: mrychkov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 02:10:07 by mrychkov          #+#    #+#             */
-/*   Updated: 2018/03/05 02:10:55 by mrychkov         ###   ########.fr       */
+/*   Updated: 2018/03/09 05:36:14 by mrychkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void				free_this_shit(t_stack **head)
-{
-	t_stack			*current;
-	t_stack			*remove;
-
-	if (head == NULL)
-		return ;
-	if (*head == NULL)
-		return ;
-	current = *head;
-	while (current->next)
-	{
-		remove = current;
-		current = current->next;
-		free(remove);
-	}
-	free(current);
-	*head = NULL;
-}
-
 static int			compare(int data, t_stack **a)
 {
-	t_stack *temp;
+	t_stack			*temp;
 
 	temp = *a;
 	while (temp)
@@ -63,23 +43,41 @@ int					find_min(t_stack **a)
 	return (min);
 }
 
-int					check_if_sorted(t_stack **a, t_stack **b)
+int					stack_len_calc(t_stack **a)
 {
-	t_stack			*first;
-	t_stack			*second;
+	int				len;
+	t_stack			*temp;
 
-	if (*b)
+	if (!*a)
 		return (0);
-	first = *a;
-	second = (*a)->next;
-	while (second)
+	len = 1;
+	temp = *a;
+	while (temp->next)
 	{
-		if (first->data > second->data)
-			return (0);
-		first = first->next;
-		second = second->next;
+		temp = temp->next;
+		len++;
 	}
-	return (1);
+	return (len);
+}
+
+void				free_this_shit(t_stack **head)
+{
+	t_stack			*current;
+	t_stack			*remove;
+
+	if (head == NULL)
+		return ;
+	if (*head == NULL)
+		return ;
+	current = *head;
+	while (current->next)
+	{
+		remove = current;
+		current = current->next;
+		free(remove);
+	}
+	free(current);
+	*head = NULL;
 }
 
 t_stack				*ft_create_elem(int data)

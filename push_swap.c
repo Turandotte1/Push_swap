@@ -31,26 +31,6 @@ static void			choose_sort(t_stack **a, t_stack **b, t_args *args)
 	}
 }
 
-static int			init_stack_a(t_stack **a, char *av)
-{
-	int		i;
-
-	i = 0;
-	while (av[i])
-	{
-		while (av[i] == ' ')
-			i++;
-		if (ft_atoi_max(&av[i]) > INT_MAX || ft_atoi_max(&av[i]) < INT_MIN)
-			return (0);
-		stack_fill(a, ft_atoi(&av[i]));
-		while (av[i] && av[i] != ' ')
-			i++;
-		while (av[i] && av[i] == ' ')
-			i++;
-	}
-	return ((!check_duplicates(a)) ? 0 : 1);
-}
-
 static int			receive_args(t_stack **a, int ac, char **av)
 {
 	int				i;
@@ -76,14 +56,15 @@ int					main(int ac, char **av)
 	init_args(&args);
 	if (ac < 2)
 		return (0);
-	if (!receive_args(&a, ac, av))
+	if (!receive_args(&a, ac, av) || (!(check_args(ac, av, 1))))
 	{
 		free_this_shit(&a);
-		return (0);
+		if (!args.checker)
+			write(1, "Error\n", 6);
+		exit(EXIT_FAILURE);
 	}
 	choose_sort(&a, &b, &args);
 	free_this_shit(&a);
 	free_this_shit(&b);
-	args.end = clock();
 	return (0);
 }

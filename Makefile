@@ -6,7 +6,7 @@
 #    By: mrychkov <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 01:21:50 by mrychkov          #+#    #+#              #
-#    Updated: 2018/03/05 01:59:41 by mrychkov         ###   ########.fr        #
+#    Updated: 2018/03/09 03:54:52 by mrychkov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,15 +18,13 @@ CLEAN_COLOR = \033[1;36m
 NAME1 = checker
 NAME2 = push_swap
 
-SRC1 = checker.c verify.c verify_checker.c sorting_helpers.c \
-operations1.c operations2.c operations3.c options.c \
-selection_sort.c sort_big_stack.c start_rotation.c \
-less_costly.c 
+SRC1 = checker.c init.c less_costly.c operations1.c operations2.c operations3.c \
+options.c selection_sort.c sort_big_stack.c sorting_helpers.c start_rotation.c \
+verif_args.c verif_sort.c  
 
-SRC2 = push_swap.c verify.c verify_checker.c sorting_helpers.c \
-operations1.c operations2.c operations3.c options.c \
-selection_sort.c sort_big_stack.c start_rotation.c \
-less_costly.c 
+SRC2 = push_swap.c init.c less_costly.c operations1.c operations2.c operations3.c \
+options.c selection_sort.c sort_big_stack.c sorting_helpers.c start_rotation.c \
+verif_args.c verif_sort.c 
 
 OBJ1 = $(SRC1:.c=.o)
 OBJ2 = $(SRC2:.c=.o)
@@ -43,11 +41,11 @@ makelibs:
 	@make -C Libft
 
 $(NAME1): $(OBJ1)
-	@$(CC) $(CFLAGS) $(OBJ1) Libft/libft.a -o $(NAME1)
+	@$(CC)  -g3 $(CFLAGS) $(OBJ1) Libft/libft.a -o $(NAME1)
 	@echo "$(CLEAN_COLOR)Compilation $(NAME1): $(OK_COLOR)OK $(NO_COLOR)"
 
 $(NAME2): $(OBJ2)
-	@$(CC) $(CFLAGS) $(OBJ2) Libft/libft.a -o $(NAME2)
+	@$(CC)  -g3 $(CFLAGS) $(OBJ2) Libft/libft.a -o $(NAME2)
 	@echo "$(CLEAN_COLOR)Compilation $(NAME2): $(OK_COLOR)OK $(NO_COLOR)"
 
 %.o: %.c

@@ -6,7 +6,7 @@
 /*   By: mrychkov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 02:51:27 by mrychkov          #+#    #+#             */
-/*   Updated: 2018/03/05 07:19:51 by mrychkov         ###   ########.fr       */
+/*   Updated: 2018/03/09 05:34:11 by mrychkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,6 @@ typedef struct			s_args
 	int					print;
 	int					checker;
 	int					ops;
-	double				execution_time;
-	clock_t				start;
-	clock_t				end;
 }						t_args;
 
 typedef struct			s_checker
@@ -115,21 +112,29 @@ void					ss(t_stack **a, t_stack **b, t_args *args);
 void					debug_opt(t_stack **a, t_stack **b, t_args *args);
 void					print_info(t_args *args);
 /*
-**-------------------Les fonctions helpers se cachent ici--------------*
+**-------------------Les fonctions de parsing se cachent ici--------------*
 */
 
-void					free_this_shit(t_stack **head);
-void					init_args(t_args *args);
-void					init_checker_tab(t_checker *tab);
-void					check_if_worked(t_stack **a, t_stack **b, t_args *args);
-void					stack_fill(t_stack **head, int data);
-
-int						find_min(t_stack **a);
-int						check_if_sorted(t_stack **a, t_stack **b);
-int						check_a(t_stack **a);
-int						check_b(t_stack **b);
+int						init_stack_a(t_stack **a, char *av);
 int						check_duplicates(t_stack **a);
 int						check_args(int ac, char **av, int index);
+
+void					stack_fill(t_stack **head, int data);
+
+/*
+**---------------------Les fonctions helpers se cachent ici------------------*
+*/
+
+void					check_if_checker_worked(t_stack **a, t_stack **b,
+													t_args *args);
+void					stack_fill(t_stack **head, int data);
+void					free_this_shit(t_stack **head);
+void					init_args(t_args *args);
+
+int						check_a(t_stack **a);
+int						check_b(t_stack **b);
+int						find_min(t_stack **a);
+int						check_if_sorted(t_stack **a, t_stack **b);
 int						stack_len_calc(t_stack **a);
 
 t_stack					*ft_create_elem(int data);
