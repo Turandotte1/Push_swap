@@ -6,7 +6,7 @@
 /*   By: mrychkov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/09 05:30:24 by mrychkov          #+#    #+#             */
-/*   Updated: 2018/03/09 05:33:31 by mrychkov         ###   ########.fr       */
+/*   Updated: 2018/03/13 12:56:46 by mrychkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void				check_if_checker_worked(t_stack **a, t_stack **b,
 	{
 		write(1, "KO\n", 3);
 		if (args->colors)
-			write(1, END, ft_strlen(END);
+			write(1, END, ft_strlen(END));
 		exit(EXIT_FAILURE);
 	}
 	while (*a)
@@ -68,7 +68,7 @@ void				check_if_checker_worked(t_stack **a, t_stack **b,
 		{
 			write(1, "KO\n", 3);
 			if (args->colors)
-				write(1, END, ft_strlen(END);
+				write(1, END, ft_strlen(END));
 			exit(EXIT_FAILURE);
 		}
 		a = &(*a)->next;

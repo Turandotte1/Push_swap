@@ -6,7 +6,7 @@
 #    By: mrychkov <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/05 01:21:50 by mrychkov          #+#    #+#              #
-#    Updated: 2018/03/09 03:54:52 by mrychkov         ###   ########.fr        #
+#    Updated: 2018/03/13 13:26:26 by mrychkov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,15 +41,15 @@ makelibs:
 	@make -C Libft
 
 $(NAME1): $(OBJ1)
-	@$(CC)  -g3 $(CFLAGS) $(OBJ1) Libft/libft.a -o $(NAME1)
+	@$(CC)  -g3  $(CFLAGS) $(OBJ1) Libft/libft.a -o $(NAME1)
 	@echo "$(CLEAN_COLOR)Compilation $(NAME1): $(OK_COLOR)OK $(NO_COLOR)"
 
 $(NAME2): $(OBJ2)
-	@$(CC)  -g3 $(CFLAGS) $(OBJ2) Libft/libft.a -o $(NAME2)
+	@$(CC)  -g3  $(CFLAGS) $(OBJ2) Libft/libft.a -o $(NAME2)
 	@echo "$(CLEAN_COLOR)Compilation $(NAME2): $(OK_COLOR)OK $(NO_COLOR)"
 
 %.o: %.c
-	@$(CC) -c $(CFLAGS) -o $@ $<
+	@$(CC) -c  $(CFLAGS) -o $@ $<
 
 clean:
 	@make -C Libft clean

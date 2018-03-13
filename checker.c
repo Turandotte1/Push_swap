@@ -6,7 +6,7 @@
 /*   By: mrychkov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 02:00:37 by mrychkov          #+#    #+#             */
-/*   Updated: 2018/03/09 05:43:57 by mrychkov         ###   ########.fr       */
+/*   Updated: 2018/03/13 13:19:52 by mrychkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ static int				input_moves(t_stack **a, t_stack **b, int fd,
 	t_checker			tab[11];
 
 	init_checker_tab(tab);
-	while ((get_next_line(fd, &line) > 0) && !(struct_index = 0))
+	while ((get_next_line(fd, &line) > 0) && (struct_index = -1))
 	{
-		while (struct_index < 11)
-			if (++struct_index && !ft_strcmp(line, tab[struct_index].op))
+		while (++struct_index < 11)
+			if (!ft_strcmp(line, tab[struct_index].op))
 			{
 				args->print = 0;
 				args->checker = 1;
@@ -61,7 +61,6 @@ static int				input_moves(t_stack **a, t_stack **b, int fd,
 			write(2, "Error\n", 6);
 			exit(EXIT_FAILURE);
 		}
-		free(line);
 	}
 	free(line);
 	check_if_checker_worked(a, b, args);
@@ -76,7 +75,7 @@ static int				convert_args(int fd, t_args *args, int ac, char **av)
 
 	i = 1;
 	b = NULL;
-	if ((a = NULL) && args->total)
+	if (!(a = NULL) && args->total)
 		i++;
 	if (fd)
 		i++;
