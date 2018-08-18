@@ -7,7 +7,7 @@ because from one integers configuration to another, the most efficient sorting a
 can differ.
 
 ```
-git clone https://github.com/Turandotte1/Push_swap.git
+git clone --recursive https://github.com/Turandotte1/Push_swap.git
 cd Push_swap
 make
 ./push_swap 4 2 1 9 9012313
